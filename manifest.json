@@ -1,0 +1,10 @@
+{
+  "name": "checker",
+  "id": "widget-id-1P88TfPbVt",
+  "api": "1.0.0",
+  "editorType": ["figma","figjam"],
+  "permissions": [],
+  "containsWidget": true,
+  "main": "dist/code.js",
+  "widgetApi": "1.0.0"
+}
