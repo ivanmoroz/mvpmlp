@@ -5,6 +5,7 @@ import { Frame } from './frame';
 import { ChecklistContent } from './content';
 import { useChecklistLogic } from './logic';
 import { Navigation } from './navigation';
+import { layout, colors } from './styles';
 
 function Widget() {
   const [checkedItems, setCheckedItems] = useSyncedState<Record<string, boolean>>("checkedItems", {});
@@ -17,17 +18,15 @@ function Widget() {
       verticalAlignItems="start"
       height="hug-contents"
       fill="#FFFFFF"
-      cornerRadius={24}
+      cornerRadius={layout.cornerRadius}
       width={570}
-      effect={[
-        {
-          type: "drop-shadow",
-          color: { r: 0, g: 0, b: 0, a: 0.12 },
-          offset: { x: 0, y: 6 },
-          blur: 34,
-          spread: 0,
-        },
-      ]}
+      effect={[{
+        type: "drop-shadow",
+        color: { r: 0, g: 0, b: 0, a: 0.12 },
+        offset: { x: 0, y: 6 },
+        blur: 34,
+        spread: 0,
+      }]}
     >
       <Navigation resetState={resetState} />
       <Frame 
@@ -41,10 +40,17 @@ function Widget() {
           horizontalAlignItems="start"
           verticalAlignItems="center"
           width="fill-parent"
-          padding={{ left: 48, bottom: 64 }}
+          padding={{ left: layout.padding.horizontal, bottom: layout.padding.bottom }}
         >
-          <AutoLayout width={474} height={56} fill="#FFD700" cornerRadius={12} horizontalAlignItems="center" verticalAlignItems="center">
-            <Text fontSize={16} fill="#000000">Дальше</Text>
+          <AutoLayout 
+            width={layout.button.width} 
+            height={layout.button.height} 
+            fill={colors.button} 
+            cornerRadius={layout.button.cornerRadius} 
+            horizontalAlignItems="center" 
+            verticalAlignItems="center"
+          >
+            <Text fontSize={16} fill={colors.buttonText}>Дальше</Text>
           </AutoLayout>
         </AutoLayout>
       )}

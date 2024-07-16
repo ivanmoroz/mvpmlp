@@ -2,7 +2,7 @@ const { widget } = figma;
 const { AutoLayout, Text, SVG } = widget;
 
 import { ChecklistItem } from './content';
-import { checkedIcon, uncheckedIcon } from './styles';
+import { uncheckedIcon, checkedIcon, colors, typography, layout } from './styles';
 
 interface FrameProps {
   items: ChecklistItem[];
@@ -11,14 +11,14 @@ interface FrameProps {
 }
 
 export function Frame({ items, handleCheckboxClick, checkedItems }: FrameProps) {
-  const renderItems = (items: ChecklistItem[], level: number = 0, parentType?: string) => {
+  const renderItems = (items: ChecklistItem[], level: number = 0, parentType: string | undefined = undefined) => {
     return items.map((item, index) => {
       const { text, children, type } = item;
       const isHeader = type === "h1" || type === "h4";
-      const fontSize = type === "h1" ? 56 : type === "h4" ? 28 : 16;
-      const fontWeight = isHeader ? "bold" : "normal";
+      const fontSize = typography[type]?.fontSize || typography.item.fontSize;
+      const fontWeight = typography[type]?.fontWeight || typography.item.fontWeight;
       const paddingLeft = type === "item" && parentType !== "h4" ? (level >= 3 ? 36 : 24) : 0;
-      const paddingBottom = type === "h4" ? 20 : 4;
+      const paddingBottom = type === "h4" ? layout.padding.itemGroup : 4;
       const paddingTop = type === "h1" && parentType === undefined ? 28 : 0;
 
       return (
@@ -27,11 +27,11 @@ export function Frame({ items, handleCheckboxClick, checkedItems }: FrameProps) 
           direction="vertical"
           horizontalAlignItems="start"
           verticalAlignItems="center"
-          spacing={type === "item" ? 20 : 20}
+          spacing={type === "item" ? layout.padding.item : 20}
           padding={{ left: paddingLeft, top: paddingTop, bottom: paddingBottom }}
         >
           {isHeader ? (
-            <Text fontSize={fontSize} fontWeight={fontWeight} fill={isHeader ? "#000000" : "#595959"}>
+            <Text fontSize={fontSize} fontWeight={fontWeight} fill={isHeader ? colors.textPrimary : colors.textSecondary}>
               {text}
             </Text>
           ) : (
@@ -43,7 +43,7 @@ export function Frame({ items, handleCheckboxClick, checkedItems }: FrameProps) 
               onClick={() => handleCheckboxClick(item)}
             >
               <SVG src={checkedItems[item.text] ? checkedIcon : uncheckedIcon} />
-              <Text fontSize={fontSize} fontWeight={fontWeight} fill="#595959">
+              <Text fontSize={fontSize} fontWeight={fontWeight} fill={colors.textSecondary}>
                 {text}
               </Text>
             </AutoLayout>
@@ -54,5 +54,5 @@ export function Frame({ items, handleCheckboxClick, checkedItems }: FrameProps) 
     });
   };
 
-  return <AutoLayout padding={{ left: 48, right: 48, bottom: 8 }}>{renderItems(items)}</AutoLayout>;
+  return <AutoLayout padding={{ left: layout.padding.horizontal, right: layout.padding.horizontal, bottom: 8 }}>{renderItems(items)}</AutoLayout>;
 }

@@ -1,22 +1,73 @@
-export const styles = {
-    padding: 48,
-    fill: "#ffffff",
-    cornerRadius: 16,
-    spacing: 48,
-    width: 700,
-    effect: [
-      { type: "drop-shadow", color: "#0000001a", offset: { x: 0, y: 4 }, blur: 8 }
-    ]
-  };
-  
-  export const uncheckedIcon = `
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="24" height="24" rx="4" fill="#F5F5F5"/>
-  </svg>`;
-  
-  export const checkedIcon = `
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="24" height="24" rx="4" fill="#FADB14"/>
-    <path d="M7 12L10 15L17 8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>`;
-  
+// SVG Icons
+export const uncheckedIcon = `
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="24" height="24" rx="4" fill="#F5F5F5"/>
+</svg>`;
+
+export const checkedIcon = `
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="24" height="24" rx="4" fill="#FFDD2D"/>
+  <path d="M7 12L10 15L17 8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+
+export const backIcon = `
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M3.5 8L9.34218 2L10.6844 3.42335L6.18436 8L10.6844 12.5766L9.34218 14L3.5 8Z" fill="#126DF7"/>
+</svg>`;
+
+export const resetIcon = `
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M16.2647 7.36426C13.7935 5.08635 9.94281 5.14665 7.54455 7.54516C5.08419 10.0058 5.08419 13.9946 7.54455 16.4552C10.004 18.9149 13.9933 18.9149 16.4537 16.4552C16.9801 15.9278 17.835 15.9278 18.3624 16.4552C18.8897 16.9817 18.8897 17.8367 18.3624 18.3641C14.8482 21.8786 9.14998 21.8786 5.63494 18.3641C2.12169 14.8496 2.12169 9.15077 5.63494 5.63625C9.08789 2.18294 14.6484 2.12264 18.1752 5.45355L19.4639 4.16565C20.0308 3.59864 21 4.00005 21 4.80195V9.30197C21 9.79877 20.5968 10.202 20.1001 10.202H15.6005C14.7987 10.202 14.3974 9.23267 14.9643 8.66567L16.2647 7.36426Z" fill="#126DF7"/>
+</svg>`;
+
+// Colors
+export const colors = {
+  primary: "#126DF7",
+  secondary: "#F5F5F5",
+  highlight: "#FFDD2D",
+  textPrimary: "#333333",
+  textSecondary: "#595959",
+  button: "#FFDD2D",
+  buttonText: "#333333"
+};
+
+// Typography
+export const typography = {
+  h1: { fontSize: 56, fontWeight: "bold" },
+  h4: { fontSize: 28, fontWeight: "bold" },
+  item: { fontSize: 16, fontWeight: "normal" },
+};
+
+// Layout
+export const layout = {
+  cornerRadius: 24,
+  shadow: {
+    type: "drop-shadow",
+    color: { r: 0, g: 0, b: 0, a: 0.12 },
+    offset: { x: 0, y: 6 },
+    blur: 34,
+    spread: 0,
+  },
+  padding: {
+    horizontal: 48,
+    bottom: 64,
+    item: 20,
+    itemIndent: 12,
+    itemGroup: 32,
+  },
+  button: {
+    width: 474,
+    height: 56,
+    cornerRadius: 12,
+  },
+  navigation: {
+    height: 64,
+    padding: { left: 28, right: 28 },
+    itemSpacing: 2,
+    progress: {
+      width: 140,
+      height: 8,
+    },
+    iconMargin: { left: 25, right: 23 },
+  },
+};
