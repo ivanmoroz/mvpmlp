@@ -9,7 +9,7 @@ import { layout, colors } from './styles';
 
 function Widget() {
   const [checkedItems, setCheckedItems] = useSyncedState<Record<string, boolean>>("checkedItems", {});
-  const { handleCheckboxClick, resetState, areAllItemsChecked } = useChecklistLogic(checkedItems, setCheckedItems);
+  const { handleCheckboxClick, resetState, getItemState } = useChecklistLogic(checkedItems, setCheckedItems);
 
   return (
     <AutoLayout
@@ -33,8 +33,9 @@ function Widget() {
         items={ChecklistContent} 
         handleCheckboxClick={handleCheckboxClick} 
         checkedItems={checkedItems}
+        getItemState={getItemState}
       />
-      {areAllItemsChecked(ChecklistContent) && (
+      {getItemState(ChecklistContent[0]) === 'selected' && (
         <AutoLayout
           direction="vertical"
           horizontalAlignItems="start"

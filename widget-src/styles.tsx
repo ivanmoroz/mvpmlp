@@ -10,6 +10,12 @@ export const checkedIcon = `
   <path d="M7 12L10 15L17 8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
 
+export const indeterminateIcon = `
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="24" height="24" rx="4" fill="#FFDD2D"/>
+  <rect x="7" y="11" width="10" height="2" fill="black"/>
+</svg>`;
+
 export const backIcon = `
 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" clip-rule="evenodd" d="M3.5 8L9.34218 2L10.6844 3.42335L6.18436 8L10.6844 12.5766L9.34218 14L3.5 8Z" fill="#126DF7"/>
