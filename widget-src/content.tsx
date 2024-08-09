@@ -10,7 +10,7 @@ export interface ChecklistItem {
       type: "h1",
       children: [
         {
-          text: "Понимаха задачи",
+          text: "Понимание задачи",
           type: "h4",
           children: [
             {
