@@ -5,17 +5,26 @@ import { backIcon, resetIcon, colors, layout } from './styles';
 
 interface NavigationProps {
   resetState: () => void;
+  progressBarWidth: number;
 }
 
-export function Navigation({ resetState }: NavigationProps) {
+export function Navigation({ resetState, progressBarWidth }: NavigationProps) {
+  // Устанавливаем минимальную ширину для прогресс-бара
+  if (progressBarWidth <= 0 || isNaN(progressBarWidth)) {
+    console.error('Invalid Progress Bar Width:', progressBarWidth);
+    progressBarWidth = 1; // Задаем минимальную ширину вместо нуля
+  }
+
+  console.log('Final Progress Bar Width for Rendering:', progressBarWidth);
+
   return (
     <AutoLayout
       direction="horizontal"
-      horizontalAlignItems="center"
+      horizontalAlignItems="start" // Выравнивание слева
       verticalAlignItems="center"
       height={layout.navigation.height}
       fill="#FFFFFF"
-      spacing={layout.navigation.itemSpacing}
+      spacing={29}  // Добавлен отступ между элементами
       padding={layout.navigation.padding}
       width={570}
     >
@@ -23,8 +32,20 @@ export function Navigation({ resetState }: NavigationProps) {
         <SVG src={backIcon} />
         <Text fontSize={16} fill={colors.primary} x={2}>Назад</Text>
       </AutoLayout>
-      <AutoLayout width="fill-parent" height={layout.navigation.progress.height} fill="#E5E5EA" cornerRadius={4} horizontalAlignItems="center" verticalAlignItems="center">
-        <AutoLayout width={layout.navigation.progress.width} height="fill-parent" fill={colors.primary} cornerRadius={4} />
+      <AutoLayout 
+        width={layout.navigation.progress.width} 
+        height={layout.navigation.progress.height} 
+        fill={colors.secondary} 
+        cornerRadius={20} 
+        horizontalAlignItems="start" // Выравнивание слева
+        verticalAlignItems="center"
+      >
+        <AutoLayout 
+          width={progressBarWidth} 
+          height="fill-parent" 
+          fill={colors.primary} 
+          cornerRadius={20} 
+        />
       </AutoLayout>
       <AutoLayout width={158} horizontalAlignItems="end" verticalAlignItems="center">
         <SVG src={resetIcon} onClick={resetState} />

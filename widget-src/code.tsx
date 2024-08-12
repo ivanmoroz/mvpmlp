@@ -9,7 +9,18 @@ import { layout, colors } from './styles';
 
 function Widget() {
   const [checkedItems, setCheckedItems] = useSyncedState<Record<string, boolean>>("checkedItems", {});
-  const { handleCheckboxClick, resetState, getItemState } = useChecklistLogic(checkedItems, setCheckedItems);
+  const { handleCheckboxClick, resetState, getItemState, calculateProgress } = useChecklistLogic(checkedItems, setCheckedItems);
+
+  console.log('Calling calculateProgress...');
+  const progress = calculateProgress();
+  console.log('Progress:', progress);
+
+  // Рассчитываем ширину прогресс-бара заранее
+  const progressBarWidth = (progress >= 0 && progress <= 100)
+    ? (progress / 100) * layout.navigation.progress.width
+    : 70; // Используем безопасное значение по умолчанию
+
+  console.log('Calculated Progress Bar Width:', progressBarWidth);
 
   return (
     <AutoLayout
@@ -28,7 +39,7 @@ function Widget() {
         spread: 0,
       }]}
     >
-      <Navigation resetState={resetState} />
+      <Navigation resetState={resetState} progressBarWidth={progressBarWidth} />
       <Frame 
         items={ChecklistContent} 
         handleCheckboxClick={handleCheckboxClick} 
@@ -51,7 +62,7 @@ function Widget() {
             horizontalAlignItems="center" 
             verticalAlignItems="center"
           >
-            <Text fontSize={16} fill={colors.buttonText}>Дальше</Text>
+            <Text fontSize={16} fill={colors.buttonText}>Завершить этап</Text>
           </AutoLayout>
         </AutoLayout>
       )}
