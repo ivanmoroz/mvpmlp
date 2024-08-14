@@ -1,8 +1,9 @@
-import { ChecklistItem, ChecklistContent } from './content';
+import { ChecklistItem } from './content';
 
 export function useChecklistLogic(
   checkedItems: Record<string, boolean>,
-  setCheckedItems: (value: Record<string, boolean> | ((prev: Record<string, boolean>) => Record<string, boolean>)) => void
+  setCheckedItems: (value: Record<string, boolean> | ((prev: Record<string, boolean>) => Record<string, boolean>)) => void,
+  checklistContent: ChecklistItem[] // Добавляем чеклист-контент как параметр
 ) {
   const flattenItems = (items: ChecklistItem[]): ChecklistItem[] => {
     return items.reduce<ChecklistItem[]>((acc, item) => {
@@ -13,6 +14,8 @@ export function useChecklistLogic(
       return acc;
     }, []);
   };
+
+  const flatItems = flattenItems(checklistContent);
 
   const getItemState = (item: ChecklistItem): string => {
     if (!item.children || item.children.length === 0) {
@@ -59,7 +62,7 @@ export function useChecklistLogic(
       });
     };
 
-    updateParentCheckboxes(ChecklistContent);
+    updateParentCheckboxes(checklistContent);
   };
 
   const resetState = () => {
@@ -67,7 +70,6 @@ export function useChecklistLogic(
   };
 
   const calculateProgress = (): number => {
-    const flatItems = flattenItems(ChecklistContent).filter(item => item.type === 'item');
     const checkedCount = flatItems.filter(item => checkedItems[item.text]).length;
 
     console.log('Flat Items:', flatItems);
@@ -79,5 +81,5 @@ export function useChecklistLogic(
     return progress;
   };
 
-  return { handleCheckboxClick, resetState, getItemState, calculateProgress };
+  return { handleCheckboxClick, resetState, getItemState, calculateProgress, flatItems };
 }

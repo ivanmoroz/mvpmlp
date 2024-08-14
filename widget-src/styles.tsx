@@ -34,7 +34,8 @@ export const colors = {
   textPrimary: "#333333",
   textSecondary: "#595959",
   button: "#FFDD2D",
-  buttonText: "#333333"
+  buttonText: "#333333",
+  subtle: '#999999', // Добавляем свойство subtle
 };
 
 // Typography
