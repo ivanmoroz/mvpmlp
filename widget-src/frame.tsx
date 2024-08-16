@@ -35,7 +35,7 @@ export function Frame({ items, handleCheckboxClick, checkedItems, getItemState }
           padding={{ left: paddingLeft, top: paddingTop, bottom: paddingBottom }}
         >
           {isHeader ? (
-            <Text fontSize={fontSize} fontWeight={fontWeight} fill={isHeader ? colors.textPrimary : colors.textSecondary}>
+            <Text fontSize={fontSize} fontWeight={fontWeight} fill={colors.textPrimary}>
               {text}
             </Text>
           ) : (
@@ -47,7 +47,7 @@ export function Frame({ items, handleCheckboxClick, checkedItems, getItemState }
               onClick={() => handleCheckboxClick(item)}
             >
               <SVG src={icon} />
-              <Text fontSize={fontSize} fontWeight={fontWeight} fill={colors.textSecondary}>
+              <Text fontSize={fontSize} fontWeight={fontWeight} fill={type === 'item' ? colors.textPrimary : colors.textSecondary}>
                 {text}
               </Text>
             </AutoLayout>
