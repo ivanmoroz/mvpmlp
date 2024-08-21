@@ -1,12 +1,12 @@
 const { widget } = figma;
 const { AutoLayout, Text, SVG } = widget;
 
-import { backIcon, resetIcon, colors, layout } from './styles';
+import { backIcon, resetIcon, colors, typography, layout } from './styles';
 
 interface NavigationProps {
   resetState: () => void;
   progressBarWidth: number;
-  onBack: () => void; // Добавляем новый пропс для возврата
+  onBack: () => void;
 }
 
 export function Navigation({ resetState, progressBarWidth, onBack }: NavigationProps) {
@@ -26,10 +26,21 @@ export function Navigation({ resetState, progressBarWidth, onBack }: NavigationP
       padding={layout.navigation.padding}
       width={570}
     >
-      <AutoLayout width={158} horizontalAlignItems="start" verticalAlignItems="center" onClick={onBack}>
+      <AutoLayout 
+        width={158} 
+        horizontalAlignItems="start" 
+        verticalAlignItems="center" 
+        onClick={onBack} 
+        hoverStyle={{
+          opacity: 0.8, 
+        }}
+      >
         <SVG src={backIcon} />
-        <Text fontSize={16} fill={colors.primary} x={2}>Назад</Text>
+        <Text fontSize={typography.bodyL.fontSize} fontWeight={typography.bodyL.fontWeight} lineHeight={typography.bodyL.lineHeight} fill={colors.primary} x={2}>
+          Назад
+        </Text>
       </AutoLayout>
+      
       <AutoLayout 
         width={layout.navigation.progress.width} 
         height={layout.navigation.progress.height} 
@@ -45,7 +56,15 @@ export function Navigation({ resetState, progressBarWidth, onBack }: NavigationP
           cornerRadius={20} 
         />
       </AutoLayout>
-      <AutoLayout width={158} horizontalAlignItems="end" verticalAlignItems="center">
+      
+      <AutoLayout 
+        width={158} 
+        horizontalAlignItems="end" 
+        verticalAlignItems="center" 
+        hoverStyle={{
+          opacity: 0.8,
+        }}
+      >
         <SVG src={resetIcon} onClick={resetState} />
       </AutoLayout>
     </AutoLayout>

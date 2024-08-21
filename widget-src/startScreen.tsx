@@ -1,7 +1,7 @@
 const { widget } = figma;
 const { AutoLayout, Text, SVG } = widget;
 
-import { layout, colors, icons } from './styles';
+import { layout, colors, typography, icons } from './styles';
 
 interface StartScreenProps {
   onSelectChecklist: (checklist: 'define' | 'research' | 'design' | 'custom') => void;
@@ -33,13 +33,21 @@ export function StartScreen({ onSelectChecklist, progressStatuses }: StartScreen
         direction="horizontal"
         horizontalAlignItems="center"
         verticalAlignItems="center"
-        height={64} // Высота блока заголовка
-        width={570} // Ширина блока заголовка
-        padding={{ left: 28, right: 28 }} // Внутренние отступы
+        height={64}
+        width={570}
+        padding={{ left: 28, right: 28 }}
         spacing={8} 
       >
         <SVG src={icons.businessDesign} width={24} height={24} />
-        <Text fontSize={16} fill="#FF0000" width="fill-parent" horizontalAlignText="center" truncate>
+        <Text 
+          fontSize={typography.bodyL.fontSize} 
+          fontWeight={typography.bodyL.fontWeight} 
+          lineHeight={typography.bodyL.lineHeight} 
+          fill="#FF0000" 
+          width="fill-parent" 
+          horizontalAlignText="center" 
+          truncate
+        >
           Business Design Service Management
         </Text>
         <SVG src={icons.resetIcon} width={24} height={24} />
@@ -53,9 +61,9 @@ export function StartScreen({ onSelectChecklist, progressStatuses }: StartScreen
         width="fill-parent"
         spacing={20}
       >
-        <ChecklistEntry 
+        <ChecklistEntry
           title="Define" 
-          description="Описание этапа Define" 
+          description="Понимание задачи, целей и приоритетов. Заведение подзадач с оценкой сложности и приоритетов" 
           onClick={() => onSelectChecklist('define')} 
           progress={progressStatuses.define}
         />
@@ -90,24 +98,50 @@ interface ChecklistEntryProps {
 }
 
 function ChecklistEntry({ title, description, onClick, progress }: ChecklistEntryProps) {
-  return (
-    <AutoLayout
-      width="fill-parent"
-      height="hug-contents"
-      fill={colors.secondary}
-      cornerRadius={12}
-      padding={{ left: 24, right: 24, top: 16, bottom: 16 }}
-      spacing={8}
-      onClick={onClick}
-    >
-      <AutoLayout direction="vertical" width="fill-parent" spacing={2}>
-        <Text fontSize={16} fontWeight="bold" fill={colors.textPrimary}>{title}</Text>
-        <Text fontSize={14} fill={colors.textSecondary}>{description}</Text>
+    return (
+      <AutoLayout
+        width="fill-parent"
+        height="hug-contents"
+        fill={colors.secondary}
+        cornerRadius={12}
+        padding={{ left: 24, right: 24, top: 16, bottom: 16 }}
+        spacing={8}
+        onClick={onClick}
+        hoverStyle={{
+          fill: colors.secondary,
+          opacity: 0.8,
+        }}
+      >
+        <AutoLayout direction="vertical" width="fill-parent" spacing={2}>
+          <Text 
+            fontSize={typography.bodyL.fontSize} 
+            fontWeight="bold" 
+            lineHeight={typography.bodyL.lineHeight} 
+            fill={colors.textPrimary}
+          >
+            {title}
+          </Text>
+          <Text 
+            fontSize={typography.bodyM.fontSize} 
+            fontWeight={typography.bodyM.fontWeight} 
+            lineHeight={typography.bodyM.lineHeight} 
+            fill={colors.textSecondary}
+            width="fill-parent" // Добавлено width="fill-parent" для переноса текста
+          >
+            {description}
+          </Text>
+        </AutoLayout>
+        <AutoLayout direction="horizontal" spacing={8} verticalAlignItems="center" height="fill-parent">
+          <Text 
+            fontSize={typography.bodyM.fontSize} 
+            fontWeight={typography.bodyM.fontWeight} 
+            lineHeight={typography.bodyM.lineHeight} 
+            fill={colors.textSecondary}
+          >
+            {progress}%
+          </Text>
+          <SVG src={icons.chevronRight} width={16} height={16} />
+        </AutoLayout>
       </AutoLayout>
-      <AutoLayout direction="horizontal" spacing={8} verticalAlignItems="center" height="fill-parent">
-        <Text fontSize={14} fill={colors.textSecondary}>{progress}%</Text>
-        <SVG src={icons.chevronRight} width={16} height={16} />
-      </AutoLayout>
-    </AutoLayout>
-  );
-}
+    );
+  }

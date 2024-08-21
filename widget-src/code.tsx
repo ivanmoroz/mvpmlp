@@ -72,6 +72,7 @@ function Widget() {
         fill="#FFFFFF"
         cornerRadius={layout.cornerRadius}
         width={570}
+        padding={{top: 0, bottom: 64, left: 0, right: 0 }}
         effect={[{
           type: "drop-shadow",
           color: { r: 0, g: 0, b: 0, a: 0.12 },
@@ -93,12 +94,12 @@ function Widget() {
             horizontalAlignItems="start"
             verticalAlignItems="center"
             width="fill-parent"
-            padding={{ left: layout.padding.horizontal, bottom: layout.padding.bottom }}
+            padding={{ left: layout.padding.horizontal, top: layout.padding.itemGroup, right:0, bottom:0 }}
           >
             <AutoLayout 
               width={layout.button.width} 
               height={layout.button.height} 
-              fill={colors.button} 
+              fill={colors.button}
               cornerRadius={layout.button.cornerRadius} 
               horizontalAlignItems="center" 
               verticalAlignItems="center"

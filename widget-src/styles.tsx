@@ -55,9 +55,56 @@ export const colors = {
 
 // Typography
 export const typography = {
-  h1: { fontSize: 56, fontWeight: "bold" },
-  h4: { fontSize: 28, fontWeight: "bold" },
-  item: { fontSize: 16, fontWeight: "normal" },
+  h1: {
+    fontSize: 56,
+    lineHeight: 56,
+    fontWeight: 700,
+  },
+  h2: {
+    fontSize: 44,
+    lineHeight: 48,
+    fontWeight: 700,
+  },
+  h3: {
+    fontSize: 36,
+    lineHeight: 40,
+    fontWeight: 700,
+  },
+  h4: {
+    fontSize: 28,
+    lineHeight: 32,
+    fontWeight: 700,
+  },
+  h5: {
+    fontSize: 24,
+    lineHeight: 28,
+    fontWeight: 700,
+  },
+  h6: {
+    fontSize: 20,
+    lineHeight: 24,
+    fontWeight: 700,
+  },
+  bodyXL: {
+    fontSize: 19,
+    lineHeight: 28,
+    fontWeight: 400,
+  },
+  bodyL: {
+    fontSize: 17,
+    lineHeight: 28,
+    fontWeight: 400,
+  },
+  bodyM: {
+    fontSize: 15,
+    lineHeight: 24,
+    fontWeight: 400,
+  },
+  item: {
+    fontSize: 15,
+    lineHeight: 24,
+    fontWeight: 400,
+  },
 };
 
 // Layout
