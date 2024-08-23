@@ -93,7 +93,11 @@ export function Frame({ items, handleCheckboxClick, getItemState }: FrameProps) 
             </AutoLayout>
           )}
           {comment && (
-            <AutoLayout padding={{ left: paddingLeft + 36 }} width="fill-parent">
+            <AutoLayout 
+              direction="vertical" 
+              padding={{ left: paddingLeft + 36, top: 4 }} // Добавлен отступ 4px сверху для comment
+              width="fill-parent"
+            >
               <Text
                 fontSize={typography.bodyM.fontSize}
                 fontWeight={typography.bodyM.fontWeight as TextProps['fontWeight']}
