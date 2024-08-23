@@ -43,18 +43,24 @@ function Widget() {
   
     let checklistContent: ChecklistItem[] = [];
     let checklistLogic;
+    let checkedItems = {};
+
     if (currentScreen === 'define') {
       checklistContent = ChecklistContent;
       checklistLogic = defineLogic;
+      checkedItems = defineCheckedItems;
     } else if (currentScreen === 'research') {
       checklistContent = ResearchContent;
       checklistLogic = researchLogic;
+      checkedItems = researchCheckedItems;
     } else if (currentScreen === 'design') {
       checklistContent = DesignContent;
       checklistLogic = designLogic;
+      checkedItems = designCheckedItems;
     } else if (currentScreen === 'custom') {
       checklistContent = CustomContent;
       checklistLogic = customLogic;
+      checkedItems = customCheckedItems;
     }
   
     if (!checklistLogic || !checklistContent) {
@@ -85,10 +91,13 @@ function Widget() {
         <Frame 
           items={checklistContent} 
           handleCheckboxClick={checklistLogic.handleCheckboxClick} 
-          checkedItems={defineCheckedItems} // Убедитесь, что передается правильное значение checkedItems
+          checkedItems={checkedItems} // Передаем нужное состояние checkedItems
           getItemState={checklistLogic.getItemState}
         />
-        {checklistLogic.getItemState(checklistContent[0]) === 'selected' && (
+        {(
+          (currentScreen === 'define' && checklistLogic.getItemState(checklistContent[0]) === 'selected') ||
+          (currentScreen !== 'define')
+        ) && (
           <AutoLayout
             direction="vertical"
             horizontalAlignItems="start"

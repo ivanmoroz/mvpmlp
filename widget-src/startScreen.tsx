@@ -27,6 +27,7 @@ export function StartScreen({ onSelectChecklist, progressStatuses }: StartScreen
         blur: 34,
         spread: 0,
       }]}
+      overflow="visible"  // Добавлено для предотвращения обрезки элементов
     >
       {/* Заголовок и иконки */}
       <AutoLayout
@@ -51,6 +52,18 @@ export function StartScreen({ onSelectChecklist, progressStatuses }: StartScreen
           Business Design Service Management
         </Text>
         <SVG src={icons.resetIcon} width={24} height={24} />
+      </AutoLayout>
+
+      {/* SVG изображение */}
+      <AutoLayout
+        direction="vertical"
+        horizontalAlignItems="center"
+        verticalAlignItems="center"
+        width={644}
+        height={233}
+        overflow="visible"  // Добавлено для предотвращения обрезки элементов
+      >
+       <SVG src={icons.logo} width={644} height={233} />
       </AutoLayout>
 
       {/* Блоки чеклистов */}
@@ -126,7 +139,7 @@ function ChecklistEntry({ title, description, onClick, progress }: ChecklistEntr
             fontWeight={typography.bodyM.fontWeight} 
             lineHeight={typography.bodyM.lineHeight} 
             fill={colors.textSecondary}
-            width="fill-parent" // Добавлено width="fill-parent" для переноса текста
+            width="fill-parent"
           >
             {description}
           </Text>
@@ -138,10 +151,10 @@ function ChecklistEntry({ title, description, onClick, progress }: ChecklistEntr
             lineHeight={typography.bodyM.lineHeight} 
             fill={colors.textSecondary}
           >
-            {progress}%
+            {Math.round(progress)}% 
           </Text>
           <SVG src={icons.chevronRight} width={16} height={16} />
         </AutoLayout>
       </AutoLayout>
     );
-  }
+}
