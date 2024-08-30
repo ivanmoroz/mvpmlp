@@ -10,6 +10,7 @@ import { CustomContent } from './customContent';
 import { useChecklistLogic } from './logic';
 import { Navigation } from './navigation';
 import { layout, colors } from './styles';
+import { ChecklistItem } from './content';  // Импортируем ChecklistItem, чтобы TypeScript его распознал
 
 function Widget() {
   // Отдельные состояния для каждого чеклиста
@@ -19,12 +20,34 @@ function Widget() {
   const [customCheckedItems, setCustomCheckedItems] = useSyncedState<Record<string, boolean>>("customCheckedItems", {});
   
   const [currentScreen, setCurrentScreen] = useSyncedState<'start' | 'define' | 'research' | 'design' | 'custom'>('currentScreen', 'start');
+  const [completedStatuses, setCompletedStatuses] = useSyncedState<Record<'define' | 'research' | 'design' | 'custom', boolean>>('completedStatuses', {
+    define: false,
+    research: false,
+    design: false,
+    custom: false,
+  });
+
+  // Функция для сброса статуса завершения
+  const resetCompletedStatus = (stage: 'define' | 'research' | 'design' | 'custom') => {
+    setCompletedStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [stage]: false,  // Сброс статуса завершения для текущего этапа
+    }));
+  };
+
+  // Функция для установки статуса завершения
+  const setStageCompletedStatus = (stage: 'define' | 'research' | 'design' | 'custom', status: boolean) => {
+    setCompletedStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [stage]: status,  // Установка статуса завершения для текущего этапа
+    }));
+  };
 
   // Логика для каждого чеклиста
-  const defineLogic = useChecklistLogic(defineCheckedItems, setDefineCheckedItems, ChecklistContent);
-  const researchLogic = useChecklistLogic(researchCheckedItems, setResearchCheckedItems, ResearchContent);
-  const designLogic = useChecklistLogic(designCheckedItems, setDesignCheckedItems, DesignContent);
-  const customLogic = useChecklistLogic(customCheckedItems, setCustomCheckedItems, CustomContent);
+  const defineLogic = useChecklistLogic(defineCheckedItems, setDefineCheckedItems, ChecklistContent, () => resetCompletedStatus('define'), (status: boolean) => setStageCompletedStatus('define', status));
+  const researchLogic = useChecklistLogic(researchCheckedItems, setResearchCheckedItems, ResearchContent, () => resetCompletedStatus('research'), (status: boolean) => setStageCompletedStatus('research', status));
+  const designLogic = useChecklistLogic(designCheckedItems, setDesignCheckedItems, DesignContent, () => resetCompletedStatus('design'), (status: boolean) => setStageCompletedStatus('design', status));
+  const customLogic = useChecklistLogic(customCheckedItems, setCustomCheckedItems, CustomContent, () => resetCompletedStatus('custom'), (status: boolean) => setStageCompletedStatus('custom', status));
 
   // Статусы заполненности для каждого чеклиста
   const progressStatuses = {
@@ -36,9 +59,18 @@ function Widget() {
 
   const handleBackToStart = () => setCurrentScreen('start');
 
+  // Обработчик завершения этапа
+  const handleCompleteStage = () => {
+    // Проверка на 'start' перед передачей в setStageCompletedStatus
+    if (currentScreen !== 'start') {
+      setStageCompletedStatus(currentScreen, true);  // Установка статуса завершения для текущего этапа
+    }
+    setCurrentScreen('start'); // Возврат на стартовый экран
+  };
+
   const renderContent = () => {
     if (currentScreen === 'start') {
-      return <StartScreen onSelectChecklist={setCurrentScreen} progressStatuses={progressStatuses} />;
+      return <StartScreen onSelectChecklist={setCurrentScreen} progressStatuses={progressStatuses} completedStatuses={completedStatuses} />;
     }
   
     let checklistContent: ChecklistItem[] = [];
@@ -68,7 +100,8 @@ function Widget() {
     }
   
     const progress = checklistLogic.calculateProgress();
-  
+    const isCompleted = completedStatuses[currentScreen];  // Проверка статуса завершения
+
     return (
       <AutoLayout
         direction="vertical"
@@ -91,10 +124,10 @@ function Widget() {
         <Frame 
           items={checklistContent} 
           handleCheckboxClick={checklistLogic.handleCheckboxClick} 
-          checkedItems={checkedItems} // Передаем нужное состояние checkedItems
+          checkedItems={checkedItems} 
           getItemState={checklistLogic.getItemState}
         />
-        {(
+        {!isCompleted && ( // Кнопка завершения скрывается, если этап завершен
           (currentScreen === 'define' && checklistLogic.getItemState(checklistContent[0]) === 'selected') ||
           (currentScreen !== 'define')
         ) && (
@@ -103,7 +136,7 @@ function Widget() {
             horizontalAlignItems="start"
             verticalAlignItems="center"
             width="fill-parent"
-            padding={{ left: layout.padding.horizontal, top: layout.padding.itemGroup, right:0, bottom:0 }}
+            padding={{ left: layout.padding.horizontal, top: layout.padding.itemGroup, right: 0, bottom: 0 }}
           >
             <AutoLayout 
               width={layout.button.width} 
@@ -112,6 +145,7 @@ function Widget() {
               cornerRadius={layout.button.cornerRadius} 
               horizontalAlignItems="center" 
               verticalAlignItems="center"
+              onClick={handleCompleteStage} // Обработка нажатия на кнопку
             >
               <Text fontSize={16} fill={colors.buttonText}>Завершить этап</Text>
             </AutoLayout>
