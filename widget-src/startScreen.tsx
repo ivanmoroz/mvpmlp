@@ -102,7 +102,7 @@ export function StartScreen({ onSelectChecklist, progressStatuses, completedStat
         />
         <ChecklistEntry 
           title="Research task" 
-          description="Описание этапа Research" 
+          description="Исследования, сбор данных, концепты, прототипы, поиск решения" 
           onClick={() => onSelectChecklist('research')} 
           progress={progressStatuses.research}
           completed={completedStatuses.research}
@@ -111,7 +111,7 @@ export function StartScreen({ onSelectChecklist, progressStatuses, completedStat
         />
         <ChecklistEntry 
           title="Design task" 
-          description="Описание этапа Design" 
+          description="Подготовка дизайн-спецификаций" 
           onClick={() => onSelectChecklist('design')} 
           progress={progressStatuses.design}
           completed={completedStatuses.design}
@@ -120,7 +120,7 @@ export function StartScreen({ onSelectChecklist, progressStatuses, completedStat
         />
         <ChecklistEntry 
           title="Custom" 
-          description="Описание этапа Custom" 
+          description="Персональный чеклист" 
           onClick={() => onSelectChecklist('custom')} 
           progress={progressStatuses.custom}
           completed={completedStatuses.custom}
@@ -143,7 +143,7 @@ interface ChecklistEntryProps {
 }
 
 function ChecklistEntry({ title, description, onClick, progress, completed, estimatedTextWidth, updateTextWidth }: ChecklistEntryProps) {
-  const statusText = progress === 100 ? 'Завершено' : `${Math.round(progress)}%`;
+  const statusText = progress === 100 ? '  ' : `${Math.round(progress)}%`;
 
   // Используем ширину текста для расчёта длины линии
   const lineLength = estimatedTextWidth + 24;
