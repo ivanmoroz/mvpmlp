@@ -1,5 +1,5 @@
 const { widget } = figma;
-const { AutoLayout, Text, SVG } = widget;
+const { AutoLayout, Text, SVG, useSyncedState } = widget;
 
 import { ChecklistContent, ChecklistItem } from './content';
 import { uncheckedIcon, checkedIcon, indeterminateIcon, colors, typography, layout } from './styles';
@@ -29,6 +29,9 @@ export function Frame({ items, handleCheckboxClick, getItemState }: FrameProps) 
 
       const itemState = getItemState(item);
       const icon = itemState === 'selected' ? checkedIcon : itemState === 'indeterminate' ? indeterminateIcon : uncheckedIcon;
+
+      // Используем синхронизированное состояние для управления видимостью комментария
+      const [isCommentExpanded, setIsCommentExpanded] = useSyncedState(`commentExpanded-${index}`, false);
 
       return (
         <AutoLayout
@@ -97,6 +100,8 @@ export function Frame({ items, handleCheckboxClick, getItemState }: FrameProps) 
               direction="vertical" 
               padding={{ left: paddingLeft + 36, top: 4 }} // Добавлен отступ 4px сверху для comment
               width="fill-parent"
+              onClick={() => setIsCommentExpanded(!isCommentExpanded)} // Переключение состояния по клику
+              hoverStyle={{ opacity: 0.8 }} // Изменение стиля при наведении
             >
               <Text
                 fontSize={typography.bodyM.fontSize}
@@ -105,6 +110,8 @@ export function Frame({ items, handleCheckboxClick, getItemState }: FrameProps) 
                 fill={colors.textSecondary}
                 width="fill-parent"
                 italic={true}
+                // Ограничение отображения комментария 3 строками, если он не раскрыт
+                truncate={!isCommentExpanded ? 2 : undefined}
               >
                 {comment}
               </Text>
