@@ -1,5 +1,5 @@
 const { widget } = figma;
-const { useSyncedState, AutoLayout, Text, SVG } = widget;
+const { useSyncedState, AutoLayout, Text, SVG, useEffect } = widget;
 
 import { Frame } from './frame';
 import { layout, colors, typography, icons } from './styles';
@@ -12,10 +12,10 @@ interface StartScreenProps {
 
 export function StartScreen({ onSelectChecklist, progressStatuses, completedStatuses }: StartScreenProps) {
   const [textWidths, setTextWidths] = useSyncedState<Record<'define' | 'research' | 'design' | 'custom', number>>('textWidths', {
-    define: 600,
-    research: 600,
-    design: 600,
-    custom: 600,
+    define: 100,
+    research: 100,
+    design: 100,
+    custom: 100,
   });
 
   const updateTextWidth = (checklist: 'define' | 'research' | 'design' | 'custom', width: number) => {
@@ -24,6 +24,10 @@ export function StartScreen({ onSelectChecklist, progressStatuses, completedStat
       [checklist]: width,
     }));
   };
+
+  useEffect(() => {
+    console.log('StartScreen component rendered');
+  }, []);
 
   return (
     <AutoLayout
@@ -45,7 +49,6 @@ export function StartScreen({ onSelectChecklist, progressStatuses, completedStat
       }]}
       overflow="visible"
     >
-      {/* Заголовок и иконки */}
       <AutoLayout
         direction="horizontal"
         horizontalAlignItems="center"
@@ -70,7 +73,6 @@ export function StartScreen({ onSelectChecklist, progressStatuses, completedStat
         <SVG src={icons.resetIcon} width={24} height={24} />
       </AutoLayout>
 
-      {/* SVG изображение */}
       <AutoLayout
         direction="vertical"
         horizontalAlignItems="center"
@@ -79,10 +81,9 @@ export function StartScreen({ onSelectChecklist, progressStatuses, completedStat
         height={233}
         overflow="visible"
       >
-       <SVG src={icons.logo} width={644} height={233} />
+        <SVG src={icons.logo} width={644} height={233} />
       </AutoLayout>
 
-      {/* Блоки чеклистов */}
       <AutoLayout 
         direction="vertical"
         horizontalAlignItems="start"
@@ -145,14 +146,34 @@ interface ChecklistEntryProps {
 function ChecklistEntry({ title, description, onClick, progress, completed, estimatedTextWidth, updateTextWidth }: ChecklistEntryProps) {
   const statusText = progress === 100 ? '  ' : `${Math.round(progress)}%`;
 
-  // Используем ширину текста для расчёта длины линии
-  const lineLength = estimatedTextWidth + 24;
+  const [textNodeWidth, setTextNodeWidth] = useSyncedState<number>('textNodeWidth-' + title, estimatedTextWidth);
 
-  // Обновляем ширину текста после рендеринга компонента
-  const onTextRender = (node: SceneNode) => {
-    const textWidth = node.width;
-    updateTextWidth(textWidth);
-  };
+  useEffect(() => {
+    console.log(`ChecklistEntry ${title} is rendered`);
+
+    const calculateTextWidth = async () => {
+      try {
+        await figma.loadFontAsync({ family: 'Inter', style: 'Regular' }); // Загружаем шрифт Inter Regular
+        const tempTextNode = figma.createText();
+        tempTextNode.fontName = { family: 'Inter', style: 'Regular' };
+        tempTextNode.fontSize = typography.bodyL.fontSize;
+        tempTextNode.characters = title; // Устанавливаем текст после загрузки шрифта
+
+        const newTextWidth = tempTextNode.width;
+        setTextNodeWidth(newTextWidth);
+        updateTextWidth(newTextWidth);
+        console.log(`Calculated text width for "${title}": ${newTextWidth}`);
+        tempTextNode.remove(); // Удаляем временный узел
+      } catch (error) {
+        console.error('Error loading font or calculating text width:', error);
+      }
+    };
+
+    calculateTextWidth();
+
+  }, [title, updateTextWidth]); // Добавляем updateTextWidth в зависимости, чтобы предотвратить бесконечные рендеры
+
+  const lineLength = textNodeWidth + 24;
 
   return (
     <AutoLayout
@@ -179,7 +200,6 @@ function ChecklistEntry({ title, description, onClick, progress, completed, esti
             fill={colors.textPrimary}
             width="hug-contents"
             overflow="visible"
-            onTextRender={onTextRender} // Обновляем ширину текста при рендеринге
           >
             {title}
           </Text>
@@ -187,7 +207,7 @@ function ChecklistEntry({ title, description, onClick, progress, completed, esti
           {completed && (
             <AutoLayout width={8} overflow="visible" horizontalAlignItems="end">
               <AutoLayout
-                width={lineLength} // Ширина линии рассчитанная
+                width={lineLength} // Динамическая ширина линии
                 height={4} // Фиксированная высота для линии
                 fill="#FF0000" // Цвет линии
                 overflow="visible"
