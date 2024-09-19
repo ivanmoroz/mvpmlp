@@ -1,8 +1,4 @@
-export interface ChecklistItem {
-    text: string;
-    children?: ChecklistItem[];
-    type?: "h1" | "h4" | "item";
-  }
+import { ChecklistItem } from './types';
   
 export const CustomContent: ChecklistItem[] = [
     {

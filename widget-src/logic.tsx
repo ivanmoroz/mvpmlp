@@ -1,4 +1,4 @@
-import { ChecklistItem } from './content';
+import { ChecklistItem } from './types';
 
 export function useChecklistLogic(
   checkedItems: Record<string, boolean>,

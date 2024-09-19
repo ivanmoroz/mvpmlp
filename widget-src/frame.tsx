@@ -1,7 +1,8 @@
 const { widget } = figma;
 const { AutoLayout, Text, SVG, useSyncedState } = widget;
 
-import { ChecklistContent, ChecklistItem } from './content';
+import { ChecklistItem } from './types';
+import { ChecklistContent } from './content';
 import { uncheckedIcon, checkedIcon, indeterminateIcon, colors, typography, layout } from './styles';
 
 interface FrameProps {

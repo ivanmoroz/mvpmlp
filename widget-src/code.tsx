@@ -10,7 +10,7 @@ import { CustomContent } from './customContent';
 import { useChecklistLogic } from './logic';
 import { Navigation } from './navigation';
 import { layout, colors } from './styles';
-import { ChecklistItem } from './content';  // Импортируем ChecklistItem, чтобы TypeScript его распознал
+import { ChecklistItem } from './types';
 
 function Widget() {
   // Отдельные состояния для каждого чеклиста
