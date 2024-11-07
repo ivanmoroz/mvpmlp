@@ -1,10 +1,13 @@
 {
-  "name": "checker",
-  "id": "widget-id-1P88TfPbVt",
+  "name": "mvpmlpchecker",
+  "id": "1408768492536168062",
   "api": "1.0.0",
   "editorType": ["figma","figjam"],
   "permissions": [],
   "containsWidget": true,
   "main": "dist/code.js",
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["none"]},
   "widgetApi": "1.0.0"
 }
