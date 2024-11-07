@@ -1,7 +1,7 @@
 {
-  "name": "checker",
+  "name": "mvpmlpchecker",
   "version": "1.0.0",
-  "description": "checker",
+  "description": "mvpmlpchecker",
   "scripts": {
     "test": "npm run tsc && npm run build",
     "format": "prettier --write .",
